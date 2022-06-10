@@ -10,12 +10,23 @@ def Home(request):
     return redirect('docs')
 
 def Docs(request):
-    docs = Document.objects.all()
+    docs = Document.objects.all().order_by('-pub_time_admin')
+    base = Document.objects.all().count()
     docs_filter = DocsFilter(request.GET, queryset=docs)
     docs = docs_filter.qs
 
     data = {'docs': docs,
-            'docs_filter': docs_filter}
+            'docs_filter': docs_filter,
+            'base': base}
+    return render(request, 'docs.html', data)
+
+def SortDocs(request, sort_slug):
+    docs = Document.objects.order_by(sort_slug)
+    docs_filter = DocsFilter(request.GET, queryset=docs)
+    docs = docs_filter.qs
+
+    data = {'docs': docs,
+           'docs_filter': docs_filter}
     return render(request, 'docs.html', data)
 
 class DocsDetailView(DetailView):
@@ -25,9 +36,7 @@ class DocsDetailView(DetailView):
 def DeleteDocs(request, id):
     docs = Document.objects.get(id=id)
 
-    if docs.author == request.user:
-        docs.delete()
-    elif request.user.is_superuser:
+    if request.user.is_superuser:
         docs.delete()
     else:
         raise Http404

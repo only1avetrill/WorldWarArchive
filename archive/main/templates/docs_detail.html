@@ -20,13 +20,14 @@
                 |
             <a href="{% url 'docs' %}" class="btn btn-outline-dark btn-sm"><i class="bi bi-arrow-left"></i></a>
            {% if user.is_superuser %}
-              <a href="#" target="_blank" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
-              <a href="/delete-docs/{{ document.id }}" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></a>
+              <a href="{% url 'home' %}admin/main/document/{{ document.id }}/change/" target="_blank" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
+              <a href="{% url 'delete-docs' document.id %}" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></a>
+                | {{ document.pub_author_admin }}, {{ document.pub_time_admin }}
               {% endif %}
           </p>
-          <h5 class="card-title"><p>{{ document.title }}</p></h5>
+          <h5 class="card-title"><p><strong>{{ document.title }}</strong></p></h5>
           <p class="card-text text-muted"><small>{{ document.category }}, {{ document.country }} - {{ document.year }}<br>{{ document.author }}</small></p>
-          <p><small>{{ document.description }}</small></p>
+          <p><small>{{ document.description|safe }}</small></p>
 
       </div>
     </div>

@@ -32,15 +32,15 @@
   <div class="row g-0">
     <div class="col-md-4">
         <div class="hover-image-scale">
-            <a href="{% url 'docs_detail' docs.pk %}"><img src="{{ docs.image.url }}" class="img-fluid rounded-start blur-image" alt="{{ docs.title }}"></a>
+            <a href="{% url 'docs-detail' docs.pk %}"><img src="{{ docs.image.url }}" class="img-fluid rounded-start blur-image" alt="{{ docs.title }}"></a>
         </div>
     </div>
     <div class="col-md-8">
       <div class="card-body">
-          <p><a href="{% url 'docs_detail' docs.pk %}" class="btn btn-outline-primary btn-sm"><i class="bi bi-book"></i> | Читать/скачать</a>
+          <p><a href="{% url 'docs-detail' docs.pk %}" class="btn btn-outline-primary btn-sm"><i class="bi bi-book"></i> | Читать/скачать</a>
            {% if user.is_superuser %}
-              <a href="{{ docs.link }}" target="_blank" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
-              <a href="{{ docs.link }}" target="_blank" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></a>
+              <a href="{% url 'home' %}admin/main/document/{{ docs.id }}/change/" target="_blank" class="btn btn-outline-warning btn-sm"><i class="bi bi-pencil"></i></a>
+              <a href="{% url 'delete-docs' docs.id %}" class="btn btn-outline-danger btn-sm"><i class="bi bi-trash3"></i></a>
               {% endif %}
           </p>
         <h5 class="card-title">{{ docs.title }}</h5>
@@ -53,6 +53,17 @@
     {% endfor %}
 </div>
     <div class="col-md-6">
+{% if request.user_agent.is_pc %}
+         <div class="card mb-3" style="max-width: 650px;" align="center">
+      <div class="card-body">
+          <a href="{% url 'sort-docs' 'year' %}" class="btn btn-outline-success btn-sm" style="width: 23%"><i class="bi bi-arrow-up"></i><br>Год</a>
+          <a href="{% url 'sort-docs' '-year' %}" class="btn btn-outline-success btn-sm" style="width: 23%"><i class="bi bi-arrow-down"></i><br>Год</a>
+          <a href="{% url 'sort-docs' 'title' %}" class="btn btn-outline-success btn-sm" style="width: 23%"><i class="bi bi-arrow-up"></i><br>Наименование</a>
+          <a href="{% url 'sort-docs' '-title' %}" class="btn btn-outline-success btn-sm" style="width: 23%"><i class="bi bi-arrow-down"></i><br>Наименование</a>
+          <a href="{% url 'docs' %}" class="btn btn-outline-danger btn-sm" style="width: 97%; margin-top: 15px"><i class="bi bi-x-lg"></i> | Сбросить порядок</a>
+      </div></div>
+{% endif %}
+
         <div class="card mb-3" style="max-width: 650px;" id="filtercontent">
       <div class="card-body">
           <form method="get">
@@ -74,7 +85,9 @@
               истории, исследователей, реконструкторов. Цель проекта - сохранить историю одного из самых кровавых конфликтов в
               истории человечества и привлечь людей к изучении этой истории.<br><br>
               Если у Вас есть материалы, которыми Вы хотели бы пожертвовать на благо общества, то отправьте их на
-            <a href="mailto:rocknoxinteractive@gmail.com">rocknoxinteractive@gmail.com</a>, и мы опубликуем их при первой возможности.</span>
+            <a href="mailto:rocknoxinteractive@gmail.com">rocknoxinteractive@gmail.com</a>, и мы опубликуем их при первой возможности.<br><br>
+              <span class="text-muted">Файлов в базе: {{ base }} [11.2 Mb]</span>
+          </span>
     </div></div>
 
 

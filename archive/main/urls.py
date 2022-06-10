@@ -7,7 +7,8 @@ from . import views
 urlpatterns = [
     path('', views.Home, name='home'),
     path('docs/', views.Docs, name='docs'),
-    path('docs/<int:pk>/', views.DocsDetailView.as_view(), name='docs_detail'),
+    path('docs/<int:pk>/', views.DocsDetailView.as_view(), name='docs-detail'),
+    path('docs/sort/<slug:sort_slug>', views.SortDocs, name='sort-docs'),
     path('delete-docs/<int:id>/ ', views.DeleteDocs, name='delete-docs'),
 ]
 
